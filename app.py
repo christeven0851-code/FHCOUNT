@@ -9,10 +9,10 @@ def labor_round(x):
 
 # 設定網頁標題與排版
 st.set_page_config(page_title="製造業移工試算系統", layout="centered")
-st.title("🏗️ 製造業移工試算系統 v7.1")
+st.title("🏗️ 製造業移工試算系統")
 
 # --- 1. 基礎資料 ---
-st.header("【 1. 基礎資料 】")
+st.header("【 1.基礎資料】")
 company_name = st.text_input("公司名稱", "請輸入公司名稱")
 tw_staff = st.number_input("台灣籍員工總人數", min_value=0, value=121)
 
@@ -21,7 +21,7 @@ selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()
 rate = rate_options[selected_rate_text]
 
 # --- 2. 現有藍領移工 ---
-st.header("【 2. 現有藍領移工 】")
+st.header("【2.現有藍領】")
 col1, col2 = st.columns(2)
 with col1:
     b1 = st.number_input("本案人數", min_value=0, value=0)
@@ -33,7 +33,7 @@ with col2:
     b6 = st.number_input("承接 5%", min_value=0, value=0)
     b7 = st.number_input("加薪方案 10%", min_value=0, value=0)
 
-st.header("【 3. 技術與專業人力 】")
+st.header("【3.技術/專業人力】")
 col3, col4 = st.columns(2)
 with col3:
     tech = st.number_input("外國技術人力", min_value=0, value=0)
@@ -72,7 +72,7 @@ st.subheader("即時試算結果報告")
 # 呈現文字摘要
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人")
 if final_rem >= 0:
-    st.markdown(f"**預估可在申請：{final_rem} 人 ，其中藍領 {blue_remaining} 人，外國技術人力 {tech_remaining} 人**")
+    st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領 {blue_remaining} 人，外國技術人力 {tech_remaining} 人**")
 else:
     st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
