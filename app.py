@@ -9,35 +9,30 @@ def labor_round(x):
     return math.ceil(round(x, 1))
 
 # --- PDF 生成函數 (修正版) ---
+# --- PDF 生成函數 (同步調整排版) ---
 def create_pdf(data):
     pdf = FPDF()
     pdf.add_page()
     
-    # 1. 定義字體路徑
-    # 針對 .ttc 檔案，新版 fpdf2 使用 "檔名,index" 或 "檔名(index)" 的語法
-    # 我們嘗試最保險的寫法
+    # 1. 字體註冊
     font_filename = "msjh.ttc" 
-    
-    # 2. 註冊字體
     try:
+        target_font = None
         if os.path.exists(font_filename):
-            # 新版 fpdf2 載入 TTC 的標準寫法：直接傳入路徑，它會自動處理
-            # 或者使用名稱中帶 index 的方式
-            pdf.add_font('MSJH', '', font_filename) 
-            pdf.set_font('MSJH', size=16)
-            font_ready = True
+            target_font = font_filename
         elif os.path.exists("MSJH.TTC"):
-            pdf.add_font('MSJH', '', "MSJH.TTC")
+            target_font = "MSJH.TTC"
+
+        if target_font:
+            pdf.add_font('MSJH', '', target_font) 
             pdf.set_font('MSJH', size=16)
             font_ready = True
         else:
-            st.sidebar.error("找不到字體檔，請確認 msjh.ttc 已上傳至 GitHub 根目錄")
             font_ready = False
-    except Exception as e:
-        st.sidebar.error(f"字體掛載發生錯誤: {e}")
+    except:
         font_ready = False
 
-    # 3. 寫入內容if font_ready:
+    if font_ready:
         # --- PDF 內容排版 ---
         # 標題
         pdf.cell(200, 10, txt=f"{data['company_name']} 移工試算報告", ln=True, align='C')
@@ -84,7 +79,6 @@ def create_pdf(data):
         pdf.set_font("Arial", size=12)
         pdf.cell(200, 10, txt="Font Error: Please check msjh.ttc", ln=True)
 
-    # 4. 解決 bytearray 報錯：強制轉為 bytes
     return bytes(pdf.output())
 
 # --- Streamlit 介面 ---
@@ -203,3 +197,4 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
