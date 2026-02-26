@@ -111,14 +111,14 @@ lim_b6 = labor_round(all_denominator * 0.05)
 lim_b7 = labor_round(all_denominator * 0.10)
 lim_tech = labor_round(all_denominator * rate)
 
-rem1 = labor_round((all_denominator - b6) * 0.4) - (b1 + b_extra_total)
+rem1 = labor_round((tw_staff + b1) * 0.4) - b1
 rem2 = labor_round(all_denominator * 0.4) - (b1 + b_extra_total + b6)
 rem3 = labor_round(all_denominator * 0.45) - (b1 + b_extra_total + b6 + b7)
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 blue_remaining = max(0, min(rem1, rem2, rem3))
 tech_remaining = max(0, min(lim_tech - tech, rem4))
-final_rem = max(0, min(rem1, rem2, rem3, rem4))
+final_rem = max(0, max(rem1, rem2, rem3, rem4))
 
 # 4. 結果報告呈現
 st.divider()
@@ -160,6 +160,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
