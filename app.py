@@ -90,8 +90,8 @@ st.title("🏗️ 製造業移工試算系統")
 
 # 1. 基礎資料
 st.header("【 1.基礎資料】")
-company_name = st.text_input("公司名稱", "範例公司")
-tw_staff = st.number_input("台灣籍員工總人數", min_value=0, value=121)
+company_name = st.text_input("公司名稱", "範例")
+tw_staff = st.number_input("台灣籍員工總人數", min_value=0, value=100)
 rate_options = {"A+(35%)": 0.35, "A(25%)": 0.25, "B(20%)": 0.2, "C(15%)": 0.15, "D(10%)": 0.1}
 selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()), index=2)
 rate = rate_options[selected_rate_text]
@@ -100,8 +100,8 @@ rate = rate_options[selected_rate_text]
 st.header("【2.現有藍領】")
 col1, col2 = st.columns(2)
 with col1:
-    b1 = st.number_input("本案人數", min_value=0, value=0)
-    b2 = st.number_input("增額 5%", min_value=0, value=0)
+    b1 = st.number_input("本案人數", min_value=0, value=10)
+    b2 = st.number_input("增額 5%", min_value=0, value=5)
     b3 = st.number_input("增額 10%", min_value=0, value=0)
     b4 = st.number_input("增額 15%", min_value=0, value=0)
 with col2:
@@ -212,3 +212,4 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
