@@ -139,9 +139,9 @@ st.write(f"技術人力：目前 {tech} 人 / 剩餘 {max(0, lim_tech-tech)} 人
 
 st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
 
-# 若您仍想保留表格對齊，可以放在最下面當參考
+# 表格對齊，放在最下面當參考
 
-if st.checkbox("顯示數據表格對齊"):
+st.checkbox("顯示數據表格對齊"):
 
     df_data = {
         "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
@@ -173,6 +173,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
