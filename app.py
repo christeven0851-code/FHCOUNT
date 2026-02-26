@@ -112,7 +112,7 @@ base_deno = tw_staff + b1 + tech + pro
 # 內框人數上限=內框人數基準*比例
 lim_b1 = labor_round(base_deno * rate)
 # 外框人數上限=全體員工*(比例+20%)
-lim_p20 = labor_round(all_denominator *min( (rate + 0.20),0.40)
+lim_p20 = labor_round(all_denominator * min ((rate + 0.20), 0.40))
                       
 up_extra_total = max(0, lim_p20 - lim_b1)
               
@@ -183,6 +183,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
