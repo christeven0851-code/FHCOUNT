@@ -127,14 +127,24 @@ blue_remaining = max(0, min(rem1, rem2, rem3))
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = max(0, min(rem1, rem2, rem3, rem4))
 
-# 結果呈現
+# --- 4. 結果報告呈現 ---
 st.divider()
 st.subheader("即時試算結果報告")
+
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人")
 if final_rem >= 0:
     st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領 {min(final_rem,blue_remaining)} 人、外國技術人力 {min(final_rem,tech_remaining)} 人**")
 else:
     st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
+
+st.write("-----------------------------------------------------")
+st.write(f"本案：目前 {b1} 人 / 剩餘 {max(0, lim_b1-b1)} 人")
+st.write(f"增額：目前 {b_extra_total} 人 / 剩餘 {max(0, up_extra_total-b_extra_total)} 人")
+st.write(f"承接：目前 {b6} 人 / 剩餘 {max(0, lim_b6-b6)} 人")
+st.write(f"加薪：目前 {b7} 人 / 剩餘 {max(0, lim_b7-b7)} 人")
+st.write(f"技術人力：目前 {tech} 人 / 剩餘 {max(0, lim_tech-tech)} 人")
+
+st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
 
 # 下載 PDF 按鈕
 report_data = {
@@ -157,6 +167,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
