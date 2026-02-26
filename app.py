@@ -104,7 +104,7 @@ with col3:
 with col4:
     pro = st.number_input("外國專業人力", min_value=0, value=0)
 
-# 計算邏輯
+# 3. 計算邏輯
 b_extra_total = b2 + b3 + b4 + b5
 total_blue = b1 + b_extra_total + b6 + b7
 sum_all_foreign = total_blue + tech + pro
@@ -127,7 +127,7 @@ blue_remaining = max(0, min(rem1, rem2, rem3))
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = max(0, min(rem1, rem2, rem3, rem4))
 
-# --- 4. 結果報告呈現 ---
+# 4. 結果報告呈現
 st.divider()
 st.subheader("即時試算結果報告")
 
@@ -167,6 +167,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
