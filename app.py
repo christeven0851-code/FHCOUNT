@@ -47,7 +47,7 @@ sum_all_foreign = total_blue + tech + pro
 all_denominator = tw_staff + sum_all_foreign
 
 # 各項上限
-base_deno = tw_staff + b1  + tech + pro
+base_deno = tw_staff + b1 + tech + pro
 lim_b1 = labor_round(base_deno * rate)
 lim_p20 = labor_round(all_denominator * (rate + 0.20))
 up_extra_total = max(0, lim_p20 - lim_b1)
@@ -72,7 +72,7 @@ st.subheader("即時試算結果報告")
 # 呈現文字摘要
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人")
 if final_rem >= 0:
-    st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領 {blue_remaining} 人，外國技術人力 {tech_remaining} 人**")
+    st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領 {min(final_rem,blue_remaining)} 人，外國技術人力 {min(final_rem,tech_remaining)} 人**")
 else:
     st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
@@ -96,4 +96,3 @@ if st.checkbox("顯示數據表格對齊"):
         "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
     }
     st.table(pd.DataFrame(df_data))
-
