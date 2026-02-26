@@ -25,7 +25,7 @@ def create_pdf(data):
 
         if target_font:
             pdf.add_font('MSJH', '', target_font) 
-            pdf.set_font('MSJH', size=16)
+            pdf.set_font('MSJH', size=24)
             font_ready = True
         else:
             font_ready = False
@@ -212,6 +212,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
