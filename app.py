@@ -96,18 +96,32 @@ rate_options = {"A+(35%)": 0.35, "A(25%)": 0.25, "B(20%)": 0.2, "C(15%)": 0.15, 
 selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()), index=2)
 rate = rate_options[selected_rate_text]
 
-# 2. 現有人力
+# 2. 現有人力 (加入動態鎖定邏輯)
 st.header("【2.現有藍領】")
+
+# 判斷邏輯：根據選擇的比例鎖定增額輸入框
+disable_10 = (selected_rate_text == "A+(35%)")
+disable_15 = (selected_rate_text == "A+(35%)")
+disable_20 = (selected_rate_text == "A+(35%)" or selected_rate_text == "A(25%)")
+
 col1, col2 = st.columns(2)
 with col1:
     b1 = st.number_input("本案人數", min_value=0, value=10)
     b2 = st.number_input("增額 5%", min_value=0, value=5)
-    b3 = st.number_input("增額 10%", min_value=0, value=0)
-    b4 = st.number_input("增額 15%", min_value=0, value=0)
+    
+    # 如果是 A+，這裡會變灰色不能輸入，且強制數值為 0
+    b3 = st.number_input("增額 10%", min_value=0, value=0 if disable_10 else 0, disabled=disable_10)
+    b4 = st.number_input("增額 15%", min_value=0, value=0 if disable_15 else 0, disabled=disable_15)
+
 with col2:
-    b5 = st.number_input("增額 20%", min_value=0, value=0)
+    # 如果是 A+ 或 A，這裡會變灰色不能輸入
+    b5 = st.number_input("增額 20%", min_value=0, value=0 if disable_20 else 0, disabled=disable_20)
     b6 = st.number_input("承接 5%", min_value=0, value=0)
     b7 = st.number_input("加薪方案 10%", min_value=0, value=0)
+
+# 💡 增加小提醒，讓使用者知道為什麼被鎖定
+if disable_20:
+    st.caption(f"⚠️ 當前產業比例為 {selected_rate_text}，受限於 40% 總量限制，部分增額選項已鎖定。")
 
 st.header("【3.技術/專業人力】")
 col3, col4 = st.columns(2)
@@ -212,5 +226,6 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
