@@ -58,17 +58,18 @@ def create_pdf(data):
         
         # 詳細項目餘額
         pdf.set_font('MSJH', size=12)
-        pdf.cell(200, 10, txt="【各項案別剩餘空間明細】", ln=True)
+        pdf.cell(200, 10, txt="【各項案目前人數及空間明細】", ln=True)
         pdf.cell(200, 1, txt="-" * 80, ln=True)
         pdf.ln(2)
         
         # 以清單方式呈現表格內容
         items = [
-            ("本案剩餘空間", f"{data['rem_b1']} 人"),
-            ("增額剩餘空間", f"{data['rem_extra']} 人"),
-            ("承接剩餘空間", f"{data['rem_b6']} 人"),
-            ("加薪剩餘空間", f"{data['rem_b7']} 人"),
-            ("技術人力剩餘空間", f"{data['rem_tech']} 人")
+            ("項目", "目前使用", "剩餘空間"),
+            ("本案", f"{data['b1']} 人", f"{data['rem_b1']} 人"),
+            ("增額", f"{data['b_extra_total']} 人", f"{data['rem_extra']} 人"),
+            ("承接", f"{data['b6']} 人", f"{data['rem_b6']} 人"),
+            ("加薪", f"{data['b7']} 人", f"{data['rem_b7']} 人"),
+            ("技術人力", f"{data['tech']} 人, f"{data['rem_tech']} 人")
         ]
         
         for label, val in items:
@@ -197,6 +198,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
