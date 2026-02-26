@@ -141,7 +141,7 @@ st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
 
 # 表格對齊，放在最下面當參考
 
-
+if st.checkbox("顯示數據表格對齊"):
     df_data = {
         "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
         "目前人數": [b1, b_extra_total, b6, b7, tech],
