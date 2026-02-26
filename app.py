@@ -71,6 +71,12 @@ def create_pdf(data):
             ("加薪", f"{data['b7']} 人", f"{data['rem_b7']} 人"),
             ("技術人力", f"{data['tech']} 人", f"{data['rem_tech']} 人")
         ]
+
+        for name, current, remain in items:
+            pdf.cell(60, 10, txt=name, border=0)
+            pdf.cell(60, 10, txt=current, border=0)
+            pdf.cell(60, 10, txt=remain, border=0, ln=True)
+
         
         for label, val in items:
             pdf.cell(100, 10, txt=label, border=0)
