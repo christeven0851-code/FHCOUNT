@@ -37,30 +37,52 @@ def create_pdf(data):
         st.sidebar.error(f"字體掛載發生錯誤: {e}")
         font_ready = False
 
-    # 3. 寫入內容
-    if font_ready:
-        pdf.cell(200, 10, txt=f" {data['company_name']}試算報告", ln=True, align='C')
+    # 3. 寫入內容if font_ready:
+        # --- PDF 內容排版 ---
+        # 標題
+        pdf.cell(200, 10, txt=f"{data['company_name']} 移工試算報告", ln=True, align='C')
         pdf.ln(10)
-        pdf.set_font('MSJH', size=12)
-        pdf.cell(200, 10, txt=f"公司名稱: {data['company_name']}", ln=True)
-        pdf.cell(200, 10, txt=f"目前全廠使用外國人 {data['sum_all_foreign']} 人、藍領總數 {data['total_blue']} 人、外國技術人力 {data['tech']} 人", ln=True)
         
-        pdf.set_font('MSJH', size=13)
-        pdf.cell(200, 10, txt=f"預估可再申請：{data['final_rem']} 人", ln=True)
-        pdf.cell(200, 10, txt=f"(其中藍領 {data['blue_rem']} 人、外國技術人力 {data['tech_rem']} 人)", ln=True)
-        
-        pdf.set_font('MSJH', size=12)
-        pdf.cell(200, 10, txt="-----------------------------------------------------", ln=True)
-        pdf.cell(200, 10, txt=f"本案：目前 {data['b1']} 人 / 剩餘 {data['rem_b1']} 人", ln=True)
-        pdf.cell(200, 10, txt=f"增額：目前 {data['b_extra']} 人 / 剩餘 {data['rem_extra']} 人", ln=True)
-        pdf.cell(200, 10, txt=f"承接：目前 {data['b6']} 人 / 剩餘 {data['rem_b6']} 人", ln=True)
-        pdf.cell(200, 10, txt=f"加薪：目前 {data['b7']} 人 / 剩餘 {data['rem_b7']} 人", ln=True)
-        pdf.cell(200, 10, txt=f"技術人力：目前 {data['tech']} 人 / 剩餘 {data['rem_tech']} 人", ln=True)
+        # 基礎現況
+        pdf.set_font('MSJH', size=11)
+        pdf.cell(200, 8, txt=f"公司名稱：{data['company_name']}", ln=True)
+        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})", ln=True)
+        pdf.cell(200, 8, txt=f"全廠總人數 (含本國籍)：{data['all_deno']} 人", ln=True)
         pdf.ln(5)
-        pdf.cell(200, 10, txt=f"全廠總人數 (含本國+外國人)：{data['all_deno']} 人", ln=True)
+        
+        # 核心結論 (加粗感)
+        pdf.set_font('MSJH', size=14)
+        pdf.cell(200, 10, txt=f"【預估可再申請總數：{data['final_rem']} 人】", ln=True)
+        
+        pdf.set_font('MSJH', size=12)
+        pdf.cell(200, 8, txt=f"  ● 藍領尚可申請：{data['blue_rem']} 人", ln=True)
+        pdf.cell(200, 8, txt=f"  ● 外國技術人力尚可申請：{data['tech_rem']} 人", ln=True)
+        pdf.set_font('MSJH', size=10)
+        pdf.cell(200, 8, txt="  (註：兩者加總不可超過預估總申請人數)", ln=True)
+        pdf.ln(10)
+        
+        # 詳細項目餘額
+        pdf.set_font('MSJH', size=12)
+        pdf.cell(200, 10, txt="【各項案別剩餘空間明細】", ln=True)
+        pdf.cell(200, 1, txt="-" * 80, ln=True)
+        pdf.ln(2)
+        
+        # 以清單方式呈現表格內容
+        items = [
+            ("本案剩餘空間", f"{data['rem_b1']} 人"),
+            ("增額剩餘空間", f"{data['rem_extra']} 人"),
+            ("承接剩餘空間", f"{data['rem_b6']} 人"),
+            ("加薪剩餘空間", f"{data['rem_b7']} 人"),
+            ("技術人力剩餘空間", f"{data['rem_tech']} 人")
+        ]
+        
+        for label, val in items:
+            pdf.cell(100, 10, txt=label, border=0)
+            pdf.cell(100, 10, txt=val, border=0, ln=True)
+            
     else:
         pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt="Font Error", ln=True)
+        pdf.cell(200, 10, txt="Font Error: Please check msjh.ttc", ln=True)
 
     # 4. 解決 bytearray 報錯：強制轉為 bytes
     return bytes(pdf.output())
@@ -137,28 +159,36 @@ final_rem = max(0, max(rem1, rem2, rem3, rem4))
 
 # 4. 結果報告呈現
 st.divider()
-st.subheader("📋 即時試算結果報告")
+st.subheader("即時試算結果報告")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
-
 if final_rem >= 0:
-    st.success(f"**預估可再申請：{final_rem} 人**")
-    st.markdown(f"其中藍領跟外國技術人力尚可申請的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
-    st.info("💡 提醒：再申請藍領跟外國技術人力加總不能超過預估可在申請人數")
+    st.markdown(f"**預估可再申請：{final_rem} 人**" )
+    st.markdown(f"**其中藍領跟外國技術人力尚可申請的人數分別為{min(final_rem,blue_remaining)} 人及{min(final_rem,tech_remaining)} 人**")
+    st.markdown(f"提醒：再申請藍領跟外國技術人力加總不能超過預估可再申請人數")
 else:
-    st.error(f"⚠️ 超出法規總量限制：{abs(final_rem)} 人")
+    st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
-# 5. 詳細數據表格
-st.write("")
-df_data = {
-    "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
-    "目前人數": [b1, b_extra_total, b6, b7, tech],
-    "個別上限": [lim_b1, up_extra_total, lim_b6, lim_b7, lim_tech],
-    "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
-}
-st.table(pd.DataFrame(df_data))
+st.write("-----------------------------------------------------")
+st.write(f"本案：目前 {b1} 人 / 剩餘 {max(0, lim_b1-b1)} 人")
+st.write(f"增額：目前 {b_extra_total} 人 / 剩餘 {max(0, up_extra_total-b_extra_total)} 人")
+st.write(f"承接：目前 {b6} 人 / 剩餘 {max(0, lim_b6-b6)} 人")
+st.write(f"加薪：目前 {b7} 人 / 剩餘 {max(0, lim_b7-b7)} 人")
+st.write(f"技術人力：目前 {tech} 人 / 剩餘 {max(0, lim_tech-tech)} 人")
 
 st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
+
+# 表格對齊，放在最下面當參考
+
+if st.checkbox("顯示數據表格對齊"):
+    df_data = {
+        "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
+        "目前人數": [b1, b_extra_total, b6, b7, tech],
+        "個別上限": [lim_b1, up_extra_total, lim_b6, lim_b7, lim_tech],
+        "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
+    }
+    
+    st.table(pd.DataFrame(df_data))
 
 # 下載 PDF 按鈕
 report_data = {
@@ -181,22 +211,3 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
