@@ -147,7 +147,7 @@ rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 
-blue_remaining = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - total_blue
+blue_remaining = labor_round(all_denominator * 0.45 ) - total_blue
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = rem4
 
@@ -197,5 +197,6 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
