@@ -98,17 +98,28 @@ with col4:
     pro = st.number_input("外國專業人力", min_value=0, value=0)
 
 # 3. 計算邏輯
+# 增額
 b_extra_total = b2 + b3 + b4 + b5
+# 所有藍領
 total_blue = b1 + b_extra_total + b6 + b7
+# 所有外國人
 sum_all_foreign = total_blue + tech + pro
+# 全體員工
 all_denominator = tw_staff + sum_all_foreign
 
-base_deno = tw_staff + b1 + b7 + tech + pro
+# 內框人數基準(台灣+本案+技術+專業)
+base_deno = tw_staff + b1 + tech + pro
+# 內框人數上限=內框人數基準*比例
 lim_b1 = labor_round(base_deno * rate)
-lim_p20 = labor_round(all_denominator * (rate + 0.20))
+# 外框人數上限=全體員工*(比例+20%)
+lim_p20 = labor_round(all_denominator *min( (rate + 0.20),0.40)
+                      
 up_extra_total = max(0, lim_p20 - lim_b1)
+              
 lim_b6 = labor_round(all_denominator * 0.05)
+      
 lim_b7 = labor_round(all_denominator * 0.10)
+      
 lim_tech = labor_round(all_denominator * rate)
 
 rem1 = labor_round((tw_staff + b1) * 0.4) - b1
@@ -126,7 +137,7 @@ st.subheader("即時試算結果報告")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if final_rem >= 0:
-    st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領跟外國技術人力尚可申請的人數分別為({min(final_rem,blue_remaining)} 人及{min(final_rem,tech_remaining)} 人**")
+    st.markdown(f"**預估可再申請：{final_rem} 人 ，其中藍領跟外國技術人力尚可申請的人數分別為{min(final_rem,blue_remaining)} 人及{min(final_rem,tech_remaining)} 人**")
 else:
     st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
@@ -172,6 +183,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
