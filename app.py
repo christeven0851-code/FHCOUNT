@@ -39,7 +39,7 @@ def create_pdf(data):
 
     # 3. 寫入內容
     if font_ready:
-        pdf.cell(200, 10, txt="製造業移工試算報告", ln=True, align='C')
+        pdf.cell(200, 10, txt=f" {data['company_name']}試算報告", ln=True, align='C')
         pdf.ln(10)
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 10, txt=f"公司名稱: {data['company_name']}", ln=True)
@@ -160,6 +160,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
