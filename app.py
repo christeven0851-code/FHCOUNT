@@ -10,22 +10,25 @@ def labor_round(x):
 
 # --- PDF 生成函數 (修正版) ---
 def create_pdf(data):
-    # 初始化 FPDF
     pdf = FPDF()
     pdf.add_page()
     
-    # 搜尋字體檔案 (處理 Linux 大小寫敏感問題)
-    font_filename = "msjh.ttF"
+    # 搜尋字體檔案 (增加 .ttc 的偵測)
+    font_filename = "msjh.ttc" # 預設改為你的檔名
     if not os.path.exists(font_filename):
-        if os.path.exists("MSJH.TTF"):
-            font_filename = "MSJH.TTF"
-        elif os.path.exists("MSJH.ttf"):
-            font_filename = "MSJH.ttf"
+        if os.path.exists("MSJH.TTC"):
+            font_filename = "MSJH.TTC"
+        elif os.path.exists("msjh.ttf"):
+            font_filename = "msjh.ttf"
 
     # 註冊字體
     try:
-        # 註冊名稱統一定義為 'MSJH'
-        pdf.add_font('MSJH', '', font_filename)
+        # 如果副檔名是 .ttc，必須加上 font_index=0
+        if font_filename.lower().endswith(".ttc"):
+            pdf.add_font('MSJH', '', font_filename, font_index=0)
+        else:
+            pdf.add_font('MSJH', '', font_filename)
+            
         pdf.set_font('MSJH', size=16)
         font_ready = True
     except Exception as e:
@@ -33,8 +36,7 @@ def create_pdf(data):
         pdf.set_font("Arial", size=12)
         font_ready = False
 
-    # --- 開始寫入內容 ---
-    # 標題
+    # --- 以下寫入內容的部分維持不變 ---
     pdf.cell(200, 10, txt="製造業移工試算報告", ln=True, align='C')
     pdf.ln(10)
     
@@ -145,5 +147,6 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
