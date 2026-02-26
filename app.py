@@ -69,7 +69,7 @@ def create_pdf(data):
             ("增額", f"{data['b_extra_total']} 人", f"{data['rem_extra']} 人"),
             ("承接", f"{data['b6']} 人", f"{data['rem_b6']} 人"),
             ("加薪", f"{data['b7']} 人", f"{data['rem_b7']} 人"),
-            ("技術人力", f"{data['tech']} 人, f"{data['rem_tech']} 人")
+            ("技術人力", f"{data['tech']} 人", f"{data['rem_tech']} 人")
         ]
         
         for label, val in items:
@@ -102,8 +102,8 @@ with col1:
     b2 = st.number_input("增額 5%", min_value=0, value=0)
     b3 = st.number_input("增額 10%", min_value=0, value=0)
     b4 = st.number_input("增額 15%", min_value=0, value=0)
-with col2:
     b5 = st.number_input("增額 20%", min_value=0, value=0)
+with col2:
     b6 = st.number_input("承接 5%", min_value=0, value=0)
     b7 = st.number_input("加薪方案 10%", min_value=0, value=0)
 
@@ -198,6 +198,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
