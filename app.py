@@ -143,6 +143,7 @@ st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 
 if final_rem >= 0:
     st.markdown(f"**預估可再申請：{final_rem} 人**" )
     st.markdown(f"**其中藍領跟外國技術人力尚可申請的人數分別為{min(final_rem,blue_remaining)} 人及{min(final_rem,tech_remaining)} 人**")
+    st.markdown(f"提醒：再申請藍領跟外國技術人力加總不能超過預估可在申請人數")
 else:
     st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
