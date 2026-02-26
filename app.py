@@ -10,67 +10,60 @@ def labor_round(x):
 
 # --- PDF 生成函數 (修正版) ---
 def create_pdf(data):
-    # 使用 FPDF
     pdf = FPDF()
     pdf.add_page()
     
-    # 1. 取得字體路徑並確認檔案存在
-    # 請確保 GitHub 上的檔名與這裡字串完全一致（建議統一小寫）
+    # 1. 定義字體路徑
+    # 針對 .ttc 檔案，新版 fpdf2 使用 "檔名,index" 或 "檔名(index)" 的語法
+    # 我們嘗試最保險的寫法
     font_filename = "msjh.ttc" 
     
     # 2. 註冊字體
     try:
         if os.path.exists(font_filename):
-            # .ttc 檔案必須指定 font_index
-            # 微軟正黑體通常 index 0 是標準體，index 1 是粗體，index 2 是細體
-            pdf.add_font('MSJH', '', font_filename, font_index=0)
+            # 新版 fpdf2 載入 TTC 的標準寫法：直接傳入路徑，它會自動處理
+            # 或者使用名稱中帶 index 的方式
+            pdf.add_font('MSJH', '', font_filename) 
+            pdf.set_font('MSJH', size=16)
+            font_ready = True
+        elif os.path.exists("MSJH.TTC"):
+            pdf.add_font('MSJH', '', "MSJH.TTC")
             pdf.set_font('MSJH', size=16)
             font_ready = True
         else:
-            # 偵測是否有大寫檔案
-            if os.path.exists("MSJH.TTC"):
-                pdf.add_font('MSJH', '', "MSJH.TTC", font_index=0)
-                pdf.set_font('MSJH', size=16)
-                font_ready = True
-            else:
-                st.sidebar.error(f"找不到檔案 {font_filename}，請確認 GitHub 已上傳")
-                font_ready = False
+            st.sidebar.error("找不到字體檔，請確認 msjh.ttc 已上傳至 GitHub 根目錄")
+            font_ready = False
     except Exception as e:
         st.sidebar.error(f"字體掛載發生錯誤: {e}")
         font_ready = False
 
-    # 3. 寫入內容 (關鍵：必須在 font_ready 為 True 時才寫中文)
+    # 3. 寫入內容
     if font_ready:
         pdf.cell(200, 10, txt="製造業移工試算報告", ln=True, align='C')
         pdf.ln(10)
-        
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 10, txt=f"公司名稱: {data['company_name']}", ln=True)
         pdf.cell(200, 10, txt=f"目前全廠使用外國人 {data['sum_all_foreign']} 人、藍領總數 {data['total_blue']} 人", ln=True)
         
-        # 核心結論
         pdf.set_font('MSJH', size=13)
         pdf.cell(200, 10, txt=f"預估可再申請：{data['final_rem']} 人", ln=True)
         pdf.cell(200, 10, txt=f"(其中藍領 {data['blue_rem']} 人、外國技術人力 {data['tech_rem']} 人)", ln=True)
         
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 10, txt="-----------------------------------------------------", ln=True)
-        
-        # 各項詳細數據
         pdf.cell(200, 10, txt=f"本案：目前 {data['b1']} 人 / 剩餘 {data['rem_b1']} 人", ln=True)
         pdf.cell(200, 10, txt=f"增額：目前 {data['b_extra']} 人 / 剩餘 {data['rem_extra']} 人", ln=True)
         pdf.cell(200, 10, txt=f"承接：目前 {data['b6']} 人 / 剩餘 {data['rem_b6']} 人", ln=True)
         pdf.cell(200, 10, txt=f"加薪：目前 {data['b7']} 人 / 剩餘 {data['rem_b7']} 人", ln=True)
         pdf.cell(200, 10, txt=f"技術人力：目前 {data['tech']} 人 / 剩餘 {data['rem_tech']} 人", ln=True)
-        
         pdf.ln(5)
         pdf.cell(200, 10, txt=f"全廠總人數 (含本國+外國人)：{data['all_deno']} 人", ln=True)
     else:
-        # 萬一沒字體，只能寫英文避免噴錯
         pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt="Font Error: Please check msjh.ttc on GitHub", ln=True)
+        pdf.cell(200, 10, txt="Font Error", ln=True)
 
-    return pdf.output()
+    # 4. 解決 bytearray 報錯：強制轉為 bytes
+    return bytes(pdf.output())
 
 # --- Streamlit 介面 ---
 st.set_page_config(page_title="製造業移工試算系統", layout="centered")
@@ -167,6 +160,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
