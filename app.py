@@ -75,12 +75,8 @@ def create_pdf(data):
         for name, current, remain in items:
             pdf.cell(60, 10, txt=name, border=0)
             pdf.cell(60, 10, txt=current, border=0)
-            pdf.cell(60, 10, txt=remain, border=0, ln=True)
+            pdf.cell(60, 10, txt=remain, border=0, ln=True)     
 
-        
-        for label, val in items:
-            pdf.cell(100, 10, txt=label, border=0)
-            pdf.cell(100, 10, txt=val, border=0, ln=True)
             
     else:
         pdf.set_font("Arial", size=12)
