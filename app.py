@@ -131,7 +131,7 @@ rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 
-blue_remaining = max(0, min( rem2, rem3))
+blue_remaining = max(0, min( rem3))
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = max(0, max(rem1, rem2, rem3, rem4))
 
