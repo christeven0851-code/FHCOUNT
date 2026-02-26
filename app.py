@@ -47,7 +47,7 @@ sum_all_foreign = total_blue + tech + pro
 all_denominator = tw_staff + sum_all_foreign
 
 # 各項上限
-base_deno = tw_staff + b1 + b7 + tech + pro
+base_deno = tw_staff + b1  + tech + pro
 lim_b1 = labor_round(base_deno * rate)
 lim_p20 = labor_round(all_denominator * (rate + 0.20))
 up_extra_total = max(0, lim_p20 - lim_b1)
@@ -96,3 +96,4 @@ if st.checkbox("顯示數據表格對齊"):
         "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
     }
     st.table(pd.DataFrame(df_data))
+
