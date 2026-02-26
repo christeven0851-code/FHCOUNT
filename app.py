@@ -43,7 +43,7 @@ def create_pdf(data):
         pdf.ln(10)
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 10, txt=f"公司名稱: {data['company_name']}", ln=True)
-        pdf.cell(200, 10, txt=f"目前全廠使用外國人 {data['sum_all_foreign']} 人、藍領總數 {data['total_blue']} 人", ln=True)
+        pdf.cell(200, 10, txt=f"目前全廠使用外國人 {data['sum_all_foreign']} 人、藍領總數 {data['total_blue']} 人、外國技術人力 {data['tech']} 人", ln=True)
         
         pdf.set_font('MSJH', size=13)
         pdf.cell(200, 10, txt=f"預估可再申請：{data['final_rem']} 人", ln=True)
@@ -160,6 +160,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
