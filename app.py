@@ -15,12 +15,12 @@ def create_pdf(data):
     pdf.add_page()
     
     # 搜尋字體檔案 (處理 Linux 大小寫敏感問題)
-    font_filename = "msjh.ttf"
+    font_filename = "msjh.ttc"
     if not os.path.exists(font_filename):
-        if os.path.exists("MSJH.TTF"):
-            font_filename = "MSJH.TTF"
-        elif os.path.exists("MSJH.ttf"):
-            font_filename = "MSJH.ttf"
+        if os.path.exists("MSJH.TTC"):
+            font_filename = "MSJH.TTC"
+        elif os.path.exists("MSJH.ttc"):
+            font_filename = "MSJH.ttc"
 
     # 註冊字體
     try:
@@ -145,3 +145,4 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
