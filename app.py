@@ -112,22 +112,26 @@ base_deno = tw_staff + b1 + tech + pro
 # 內框人數上限=內框人數基準*比例
 lim_b1 = labor_round(base_deno * rate)
 # 外框人數上限=全體員工*(比例+20%)
-lim_p20 = labor_round(all_denominator * min ((rate + 0.20), 0.40))
-                      
+lim_p20 = labor_round((all_denominator - b6) * min ((rate + 0.20), 0.40))
+# 附加案人數上限                      
 up_extra_total = max(0, lim_p20 - lim_b1)
-              
+# 承接案人數上限
 lim_b6 = labor_round(all_denominator * 0.05)
-      
+# 加薪案人數上限      
 lim_b7 = labor_round(all_denominator * 0.10)
-      
+# 外國技術人數上限      
 lim_tech = labor_round(all_denominator * rate)
 
-rem1 = labor_round((tw_staff + b1) * 0.4) - b1
-rem2 = labor_round(all_denominator * 0.4) - (b1 + b_extra_total + b6)
-rem3 = labor_round(all_denominator * 0.45) - (b1 + b_extra_total + b6 + b7)
+#本案餘額
+rem1 = lim_b1 - b1
+#附加案餘額
+rem2 = up_extra_total - b_extra_total
+
+rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_extra_total + b6 + b7)
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
-blue_remaining = max(0, min(rem1, rem2, rem3))
+
+blue_remaining = max(0, min( rem2, rem3))
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = max(0, max(rem1, rem2, rem3, rem4))
 
@@ -183,6 +187,7 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
 
