@@ -66,7 +66,7 @@ def create_pdf(data):
         items = [
             ("項目", "目前使用", "剩餘空間"),
             ("本案", f"{data['b1']} 人", f"{data['rem_b1']} 人"),
-            ("增額", f"{data['b2+b3+b4+b5']} 人", f"{data['rem_extra']} 人"),
+            ("增額", f"{data['b_extra']} 人", f"{data['rem_extra']} 人"),
             ("承接", f"{data['b6']} 人", f"{data['rem_b6']} 人"),
             ("加薪", f"{data['b7']} 人", f"{data['rem_b7']} 人"),
             ("技術人力", f"{data['tech']} 人", f"{data['rem_tech']} 人")
