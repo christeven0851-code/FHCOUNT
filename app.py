@@ -66,7 +66,7 @@ def create_pdf(data):
         items = [
             ("項目", "目前使用", "剩餘空間"),
             ("本案", f"{data['b1']} 人", f"{data['rem_b1']} 人"),
-            ("增額", f"{data['b_extra']} 人", f"{data['rem_extra']} 人"),
+            ("增額", f"{data['b_extra_total']} 人", f"{data['rem_extra']} 人"),
             ("承接", f"{data['b6']} 人", f"{data['rem_b6']} 人"),
             ("加薪", f"{data['b7']} 人", f"{data['rem_b7']} 人"),
             ("技術人力", f"{data['tech']} 人", f"{data['rem_tech']} 人")
@@ -179,11 +179,23 @@ st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
 
 # 下載 PDF 按鈕
 report_data = {
-    "company_name": company_name, "sum_all_foreign": sum_all_foreign, "total_blue": total_blue,
-    "final_rem": final_rem, "blue_rem": min(final_rem, blue_remaining), "tech_rem": min(final_rem, tech_remaining),
-    "b1": b1, "rem_b1": max(0, lim_b1-b1), "b_extra": b_extra_total, "rem_extra": max(0, up_extra_total-b_extra_total),
-    "b6": b6, "rem_b6": max(0, lim_b6-b6), "b7": b7, "rem_b7": max(0, lim_b7-b7),
-    "tech": tech, "rem_tech": max(0, lim_tech-tech), "all_deno": all_denominator
+    "company_name": company_name, 
+    "sum_all_foreign": sum_all_foreign, 
+    "total_blue": total_blue,
+    "final_rem": final_rem, 
+    "blue_rem": min(final_rem, blue_remaining), 
+    "tech_rem": min(final_rem, tech_remaining),
+    "b1": b1, 
+    "rem_b1": max(0, lim_b1-b1), 
+    "b_extra_total": b_extra_total,  # <-- 這裡要把 "b_extra" 改成 "b_extra_total"
+    "rem_extra": max(0, up_extra_total-b_extra_total),
+    "b6": b6, 
+    "rem_b6": max(0, lim_b6-b6), 
+    "b7": b7, 
+    "rem_b7": max(0, lim_b7-b7),
+    "tech": tech, 
+    "rem_tech": max(0, lim_tech-tech), 
+    "all_deno": all_denominator
 }
 
 st.sidebar.header("📋 報表匯出")
