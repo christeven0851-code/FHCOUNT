@@ -159,36 +159,28 @@ final_rem = max(0, max(rem1, rem2, rem3, rem4))
 
 # 4. 結果報告呈現
 st.divider()
-st.subheader("即時試算結果報告")
+st.subheader("📋 即時試算結果報告")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
-if final_rem >= 0:
-    st.markdown(f"**預估可再申請：{final_rem} 人**" )
-    st.markdown(f"**其中藍領跟外國技術人力尚可申請的人數分別為{min(final_rem,blue_remaining)} 人及{min(final_rem,tech_remaining)} 人**")
-    st.markdown(f"提醒：再申請藍領跟外國技術人力加總不能超過預估可再申請人數")
-else:
-    st.markdown(f"**:red[超出法規總量限制：{abs(final_rem)} 人]**")
 
-st.write("-----------------------------------------------------")
-st.write(f"本案：目前 {b1} 人 / 剩餘 {max(0, lim_b1-b1)} 人")
-st.write(f"增額：目前 {b_extra_total} 人 / 剩餘 {max(0, up_extra_total-b_extra_total)} 人")
-st.write(f"承接：目前 {b6} 人 / 剩餘 {max(0, lim_b6-b6)} 人")
-st.write(f"加薪：目前 {b7} 人 / 剩餘 {max(0, lim_b7-b7)} 人")
-st.write(f"技術人力：目前 {tech} 人 / 剩餘 {max(0, lim_tech-tech)} 人")
+if final_rem >= 0:
+    st.success(f"**預估可再申請：{final_rem} 人**")
+    st.markdown(f"其中藍領跟外國技術人力尚可申請的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
+    st.info("💡 提醒：再申請藍領跟外國技術人力加總不能超過預估可在申請人數")
+else:
+    st.error(f"⚠️ 超出法規總量限制：{abs(final_rem)} 人")
+
+# 5. 詳細數據表格
+st.write("")
+df_data = {
+    "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
+    "目前人數": [b1, b_extra_total, b6, b7, tech],
+    "個別上限": [lim_b1, up_extra_total, lim_b6, lim_b7, lim_tech],
+    "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
+}
+st.table(pd.DataFrame(df_data))
 
 st.info(f"全廠總人數 (含本國+外國人)：{all_denominator} 人")
-
-# 表格對齊，放在最下面當參考
-
-if st.checkbox("顯示數據表格對齊"):
-    df_data = {
-        "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
-        "目前人數": [b1, b_extra_total, b6, b7, tech],
-        "個別上限": [lim_b1, up_extra_total, lim_b6, lim_b7, lim_tech],
-        "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6), max(0, lim_b7-b7), max(0, lim_tech-tech)]
-    }
-    
-    st.table(pd.DataFrame(df_data))
 
 # 下載 PDF 按鈕
 report_data = {
