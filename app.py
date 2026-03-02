@@ -140,6 +140,19 @@ with col6:
 # 3. 計算邏輯
 # 增額
 b_extra_total = b2 + b3 + b4 + b5
+
+#增額使用到的比例
+if b5 > 0 :
+    max_extra_rate = 0.20
+elif b4 >0 :
+    max_extra_rate = 0.15
+elif b3 >0 :
+    max_extra_rate = 0.10
+elif b2 >0 :
+    max_extra_rate = 0.05
+else :
+    max_extra_rate = 0.00
+
 # 所有藍領
 total_blue = b1 + b_extra_total + b6 + b7
 # 所有外國人
@@ -154,11 +167,11 @@ base_deno = tw_staff + b1 + tech + pro
 # 內框人數上限=內框人數基準*比例
 lim_b1 = labor_round(base_deno * rate)
 # 外框人數上限=全體員工*(比例+20%)
-lim_p20 = labor_round((all_denominator - b6) * min ((rate + 0.20), 0.40))
+lim_p20 = labor_round((all_denominator - b6) * min ((rate + max_extra_rate), 0.40))
 # 附加案人數上限                      
 up_extra_total = max(0, lim_p20 - lim_b1)
 # 承接案人數上限
-lim_b6 = labor_round(all_denominator * 0.05)
+lim_b6 = labor_round(all_denominator * (rate + max_extra_rate+0.05)) - labor_round(all_denominator * (rate + max_extra_rate+0.05))
 # 加薪案人數上限      
 lim_b7 = labor_round(all_denominator * 0.10)
 # 外國技術人數上限      
@@ -216,7 +229,7 @@ report_data = {
     "tech_rem": min(final_rem, tech_remaining),
     "b1": b1, 
     "rem_b1": max(0, lim_b1-b1), 
-    "b_extra_total": b_extra_total,  # <-- 這裡要把 "b_extra" 改成 "b_extra_total"
+    "b_extra_total": b_extra_total, 
     "rem_extra": max(0, up_extra_total-b_extra_total),
     "b6": b6, 
     "rem_b6": max(0, lim_b6-b6), 
