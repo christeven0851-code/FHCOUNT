@@ -194,7 +194,7 @@ rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 #藍領尚可使用
 blue_remaining = lim_b1 + up_extra_total + lim_b6 + lim_b7 -abo - total_blue
 tech_remaining = max(0, min(lim_tech - tech, rem4))
-final_rem = rem4
+final_rem = rem4 - abo
 
 # 4. 結果報告呈現
 st.divider()
@@ -208,7 +208,7 @@ else:
     st.write(f"")
 
 if final_rem >= 0:
-    st.success(f"**預估可再使用：{final_rem-abo} 人**")
+    st.success(f"**預估可再使用：{final_rem} 人**")
     st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)-abo} 人** 及 **{min(final_rem, tech_remaining)} 人**")
     st.info("💡 提醒：再使用藍領跟外國技術人力加總不能超過預估可再使用人數")
 else:
