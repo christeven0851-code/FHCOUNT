@@ -41,13 +41,13 @@ def create_pdf(data):
         # 基礎現況
         pdf.set_font('MSJH', size=11)
         pdf.cell(200, 8, txt=f"公司名稱：{data['company_name']}", ln=True)
-        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})", ln=True)
+        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})，有效及廢聘名額 {data['total_control']}", ln=True)
         pdf.cell(200, 8, txt=f"全廠總人數 (含本國籍)：{data['all_deno']} 人", ln=True)
         pdf.ln(5)
         
         # 核心結論 (加粗感)
         pdf.set_font('MSJH', size=14)
-        pdf.cell(200, 10, txt=f"【預估可再申請總數：{data['final_rem']} 人】", ln=True)
+        pdf.cell(200, 10, txt=f"【預估可再申請總數：{data['final_rem-total_control']} 人】", ln=True)
         
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 8, txt=f"  ● 藍領尚可申請：{data['blue_rem']} 人", ln=True)
@@ -173,7 +173,7 @@ rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 
-blue_remaining = labor_round(all_denominator * 0.45 ) - total_blue
+blue_remaining = labor_round(all_denominator * 0.45 ) - total_blue - abo
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = rem4
 
@@ -181,10 +181,11 @@ final_rem = rem4
 st.divider()
 st.subheader("📋 即時試算結果報告")
 
-st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人、有效及廢聘名額 **{total_control}** 人")
+st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
+st.write(f"尚有效名額**{val}** 人及廢聘名額 **{abo}** 人")
 
 if final_rem >= 0:
-    st.success(f"**預估可再使用：{final_rem-total_control} 人**")
+    st.success(f"**預估可再使用：{final_rem-abo} 人**")
     st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
     st.info("💡 提醒：再使用藍領跟外國技術人力加總不能超過預估可再使用人數")
 else:
