@@ -146,6 +146,8 @@ total_blue = b1 + b_extra_total + b6 + b7
 sum_all_foreign = total_blue + tech + pro
 # 全體員工
 all_denominator = tw_staff + sum_all_foreign
+# 管控名額
+total_control = val + abo
 
 # 內框人數基準(台灣+本案+技術+專業)
 base_deno = tw_staff + b1 + tech + pro
@@ -179,7 +181,7 @@ final_rem = rem4
 st.divider()
 st.subheader("📋 即時試算結果報告")
 
-st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
+st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人、有效及廢聘名額 **{total_control}** 人")
 
 if final_rem >= 0:
     st.success(f"**預估可再申請：{final_rem} 人**")
