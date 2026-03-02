@@ -97,8 +97,8 @@ selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()
 rate = rate_options[selected_rate_text]
 
 rate_options2 = {"+20%": 0.20, "+15%": 0.15, "+10%": 0.10, "+5%": 0.05}
-use_extra_rate = st.number_input("現在申請最高增額%數", list(rate_options2.keys()), index=2)
-
+select_extra_rate = st.selectbox("現在申請最高增額%數", list(rate_options2.keys()), index=2)
+use_extra_rate = rate_options2[select_extra_rate]
 
 # 2. 現有人力 (加入動態鎖定邏輯)
 st.header("【2.現有藍領】")
