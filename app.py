@@ -184,7 +184,7 @@ st.subheader("📋 即時試算結果報告")
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人、有效及廢聘名額 **{total_control}** 人")
 
 if final_rem >= 0:
-    st.success(f"**預估可再使用：{final_rem} 人**")
+    st.success(f"**預估可再使用：{final_rem-total_control} 人**")
     st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
     st.info("💡 提醒：再使用藍領跟外國技術人力加總不能超過預估可再使用人數")
 else:
