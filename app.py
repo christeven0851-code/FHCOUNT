@@ -41,7 +41,7 @@ def create_pdf(data):
         # 基礎現況
         pdf.set_font('MSJH', size=11)
         pdf.cell(200, 8, txt=f"公司名稱：{data['company_name']}", ln=True)
-        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})，有效及廢聘名額 {data['total_control']}", ln=True)
+        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})，廢聘名額 {data['abo']}", ln=True)
         pdf.cell(200, 8, txt=f"全廠總人數 (含本國籍)：{data['all_deno']} 人", ln=True)
         pdf.ln(5)
         
