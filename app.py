@@ -199,6 +199,7 @@ final_rem = rem4
 # 4. 結果報告呈現
 st.divider()
 st.subheader("📋 即時試算結果報告")
+st.write(f"{lim_b1}、{up_extra_total}、{lim_b6}、{lim_b7}、{total_blue}")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if total_control > 0:
