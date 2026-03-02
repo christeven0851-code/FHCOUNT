@@ -192,13 +192,14 @@ rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 #藍領尚可使用
-blue_remaining = lim_b1 + up_extra_total + lim_b6 + lim_b7 -abo - total_blue
+blue_remaining = max(lim_b1 + up_extra_total + lim_b6 + lim_b7 -abo - total_blue , 0)
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = rem4 - abo
 
 # 4. 結果報告呈現
 st.divider()
 st.subheader("📋 即時試算結果報告")
+st.write(f"{lim_b1}、{lim_p20}、{lim_b6}、{lim_b7}、{abo}、{total_blue}")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if total_control > 0:
@@ -259,6 +260,5 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
-
 
 
