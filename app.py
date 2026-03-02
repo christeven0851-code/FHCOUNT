@@ -41,7 +41,7 @@ def create_pdf(data):
         # 基礎現況
         pdf.set_font('MSJH', size=11)
         pdf.cell(200, 8, txt=f"公司名稱：{data['company_name']}", ln=True)
-        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})， 廢聘管制名額 {data['abo']}", ln=True)
+        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})， 未使用有效名額 {data['val']})， 廢聘管制名額 {data['abo']}", ln=True)
         pdf.cell(200, 8, txt=f"全廠總人數 (含本國籍)：{data['all_deno']} 人", ln=True)
         pdf.ln(5)
         
@@ -138,7 +138,7 @@ with col4:
 st.header("【4.有效/廢聘名額】")
 col5, col6 = st.columns(2)
 with col5:
-    val = st.number_input("有效名額", min_value=0, value=0)
+    val = st.number_input("未使用有效名額", min_value=0, value=0)
 with col6:
     abo = st.number_input("廢聘管制名額", min_value=0, value=0)
 
@@ -208,7 +208,7 @@ st.subheader("📋 即時試算結果報告")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if total_control > 0:
-    st.write(f"(另尚有有效名額**{val}** 人及廢聘管制名額 **{abo}** 人)")
+    st.write(f"(另尚有未使用有效名額**{val}** 人及廢聘管制名額 **{abo}** 人)")
 else:
     st.write(f"")
 
@@ -250,6 +250,7 @@ report_data = {
     "tech": tech, 
     "rem_tech": max(0, lim_tech-tech), 
     "abo": abo, 
+    "val": val, 
     "all_deno": all_denominator
 }
 
