@@ -176,9 +176,9 @@ lim_p20 = labor_round((all_denominator - b6) * min ((rate + 0.20), 0.40))
 # 附加案人數上限                      
 up_extra_total = max(0, lim_p20 - lim_b1)
 # 承接案人數上限 (需計算目前使用增額比例)
-lim_b6 = labor_round(all_denominator * (rate + use_extra_rate + 0.05)) - labor_round(all_denominator * (rate + use_extra_rate +0.05))
+lim_b6 = labor_round(all_denominator * (rate + use_extra_rate + 0.05)) - labor_round(all_denominator * (rate + use_extra_rate))
 # 加薪案人數上限      
-lim_b7 = min(labor_round(all_denominator * 0.10) , labor_round(all_denominator * min (rate + 0.20 + 0.10 , 0.45)))
+lim_b7 = labor_round(all_denominator * (rate + use_extra_rate + 0.10)) - labor_round(all_denominator * (rate + use_extra_rate))
 # 外國技術人數上限      
 lim_tech = labor_round(all_denominator * rate)
 
