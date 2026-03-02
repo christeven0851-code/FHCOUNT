@@ -199,7 +199,6 @@ final_rem = rem4 - abo
 # 4. 結果報告呈現
 st.divider()
 st.subheader("📋 即時試算結果報告")
-st.write(f"{lim_b1}、{lim_p20}、{lim_b6}、{lim_b7}、{abo}、{total_blue}")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if total_control > 0:
@@ -260,5 +259,6 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
+
 
 
