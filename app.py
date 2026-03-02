@@ -96,7 +96,8 @@ rate_options = {"A+(35%)": 0.35, "A(25%)": 0.25, "B(20%)": 0.2, "C(15%)": 0.15, 
 selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()), index=2)
 rate = rate_options[selected_rate_text]
 
-rate_options2 = {"+20%": 0.20, "+15%": 0.15, "+10%": 0.10, "+5%": 0.05}
+# 目前使用的最高增額
+rate_options2 = {"+20%": 0.20, "+15%": 0.15, "+10%": 0.10, "+5%": 0.05, "無": 0}
 select_extra_rate = st.selectbox("現在申請最高增額%數", list(rate_options2.keys()), index=2)
 use_extra_rate = rate_options2[select_extra_rate]
 
@@ -139,7 +140,7 @@ col5, col6 = st.columns(2)
 with col5:
     val = st.number_input("有效名額", min_value=0, value=0)
 with col6:
-    abo = st.number_input("廢聘名額", min_value=0, value=0)
+    abo = st.number_input("廢聘管制名額", min_value=0, value=0)
 
 # 3. 計算邏輯
 # 增額
@@ -174,8 +175,8 @@ lim_b1 = labor_round(base_deno * rate)
 lim_p20 = labor_round((all_denominator - b6) * min ((rate + 0.20), 0.40))
 # 附加案人數上限                      
 up_extra_total = max(0, lim_p20 - lim_b1)
-# 承接案人數上限
-lim_b6 = labor_round(all_denominator * (rate + max_extra_rate+0.05)) - labor_round(all_denominator * (rate + max_extra_rate+0.05))
+# 承接案人數上限 (需計算目前使用增額比例)
+lim_b6 = labor_round(all_denominator * (rate + use_extra_rate + 0.05)) - labor_round(all_denominator * (rate + use_extra_rate +0.05))
 # 加薪案人數上限      
 lim_b7 = labor_round(all_denominator * 0.10)
 # 外國技術人數上限      
@@ -185,11 +186,12 @@ lim_tech = labor_round(all_denominator * rate)
 rem1 = lim_b1 - b1
 #附加案餘額
 rem2 = up_extra_total - b_extra_total
-
+#藍領上限
 rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_extra_total + b6 + b7)
+#外國人人數上限
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
-
+#藍領尚可使用
 blue_remaining = labor_round(all_denominator * 0.45 ) - total_blue - abo
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = rem4
