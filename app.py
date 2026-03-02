@@ -96,6 +96,10 @@ rate_options = {"A+(35%)": 0.35, "A(25%)": 0.25, "B(20%)": 0.2, "C(15%)": 0.15, 
 selected_rate_text = st.selectbox("產業基準比例", list(rate_options.keys()), index=2)
 rate = rate_options[selected_rate_text]
 
+rate_options2 = {"+20%": 0.20, "+15%": 0.15, "+10%": 0.10, "+5%": 0.05}
+use_extra_rate = st.number_input("現在申請最高增額%數", list(rate_options2.keys()), index=2)
+
+
 # 2. 現有人力 (加入動態鎖定邏輯)
 st.header("【2.現有藍領】")
 
@@ -167,7 +171,7 @@ base_deno = tw_staff + b1 + tech + pro
 # 內框人數上限=內框人數基準*比例
 lim_b1 = labor_round(base_deno * rate)
 # 外框人數上限=全體員工*(比例+20%)
-lim_p20 = labor_round((all_denominator - b6) * min ((rate + max_extra_rate), 0.40))
+lim_p20 = labor_round((all_denominator - b6) * min ((rate + 0.20), 0.40))
 # 附加案人數上限                      
 up_extra_total = max(0, lim_p20 - lim_b1)
 # 承接案人數上限
