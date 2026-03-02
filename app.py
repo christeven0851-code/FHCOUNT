@@ -130,6 +130,13 @@ with col3:
 with col4:
     pro = st.number_input("外國專業人力", min_value=0, value=0)
 
+st.header("【4.有效/廢聘名額】")
+col5, col6 = st.columns(2)
+with col5:
+    val = st.number_input("有效名額", min_value=0, value=0)
+with col6:
+    abo = st.number_input("廢聘名額", min_value=0, value=0)
+
 # 3. 計算邏輯
 # 增額
 b_extra_total = b2 + b3 + b4 + b5
@@ -226,6 +233,5 @@ if st.sidebar.button("🛠️ 生成 PDF 報表"):
         )
     except Exception as e:
         st.sidebar.error(f"生成失敗：{e}")
-
 
 
