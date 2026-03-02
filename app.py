@@ -209,7 +209,7 @@ else:
 
 if final_rem >= 0:
     st.success(f"**預估可再使用：{final_rem} 人**")
-    st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)-abo} 人** 及 **{min(final_rem, tech_remaining)} 人**")
+    st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
     st.info("💡 提醒：再使用藍領跟外國技術人力加總不能超過預估可再使用人數")
 else:
     st.error(f"⚠️ 超出法規總量限制：{abs(final_rem)} 人")
