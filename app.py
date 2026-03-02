@@ -182,7 +182,8 @@ st.divider()
 st.subheader("📋 即時試算結果報告")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
-st.write(f"尚有效名額**{val}** 人及廢聘名額 **{abo}** 人")
+if total_control > 0:
+st.write(f"(另尚有有效名額**{val}** 人及廢聘名額 **{abo}** 人)")
 
 if final_rem >= 0:
     st.success(f"**預估可再使用：{final_rem-abo} 人**")
