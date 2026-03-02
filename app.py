@@ -47,13 +47,13 @@ def create_pdf(data):
         
         # 核心結論 (加粗感)
         pdf.set_font('MSJH', size=14)
-        pdf.cell(200, 10, txt=f"【預估可再申請總數：{data['final_rem-total_control']} 人】", ln=True)
+        pdf.cell(200, 10, txt=f"【預估可再使用總數：{data['final_rem-total_control']} 人】", ln=True)
         
         pdf.set_font('MSJH', size=12)
-        pdf.cell(200, 8, txt=f"  ● 藍領尚可申請：{data['blue_rem']} 人", ln=True)
-        pdf.cell(200, 8, txt=f"  ● 外國技術人力尚可申請：{data['tech_rem']} 人", ln=True)
+        pdf.cell(200, 8, txt=f"  ● 藍領尚可使用：{data['blue_rem']} 人", ln=True)
+        pdf.cell(200, 8, txt=f"  ● 外國技術人力尚可使用：{data['tech_rem']} 人", ln=True)
         pdf.set_font('MSJH', size=10)
-        pdf.cell(200, 8, txt="  (註：兩者加總不可超過預估可再申請總數)", ln=True)
+        pdf.cell(200, 8, txt="  (註：兩者加總不可超過預估可再使用總數)", ln=True)
         pdf.ln(10)
         
         # 詳細項目餘額
@@ -209,7 +209,7 @@ else:
 
 if final_rem >= 0:
     st.success(f"**預估可再使用：{final_rem-abo} 人**")
-    st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)} 人** 及 **{min(final_rem, tech_remaining)} 人**")
+    st.markdown(f"其中藍領跟外國技術人力尚可使用的人數分別為 **{min(final_rem, blue_remaining)-abo} 人** 及 **{min(final_rem, tech_remaining)} 人**")
     st.info("💡 提醒：再使用藍領跟外國技術人力加總不能超過預估可再使用人數")
 else:
     st.error(f"⚠️ 超出法規總量限制：{abs(final_rem)} 人")
