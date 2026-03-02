@@ -41,7 +41,7 @@ def create_pdf(data):
         # 基礎現況
         pdf.set_font('MSJH', size=11)
         pdf.cell(200, 8, txt=f"公司名稱：{data['company_name']}", ln=True)
-        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})，廢聘名額 {data['abo']}", ln=True)
+        pdf.cell(200, 8, txt=f"目前現況：外國人總數 {data['sum_all_foreign']} 人 (藍領 {data['total_blue']} / 技術 {data['tech']})， 廢聘管制名額 {data['abo']}", ln=True)
         pdf.cell(200, 8, txt=f"全廠總人數 (含本國籍)：{data['all_deno']} 人", ln=True)
         pdf.ln(5)
         
@@ -178,7 +178,11 @@ up_extra_total = max(0, lim_p20 - lim_b1)
 # 承接案人數上限 (需計算目前使用增額比例)
 lim_b6 = labor_round(all_denominator * (rate + use_extra_rate + 0.05)) - labor_round(all_denominator * (rate + use_extra_rate))
 # 加薪案人數上限      
-lim_b7 = labor_round(all_denominator * (rate + use_extra_rate + 0.10)) - labor_round(all_denominator * (rate + use_extra_rate))
+lim_b7 = min ( labor_round(all_denominator * (0.10)) , 
+              labor_round(all_denominator * (rate + min ( use_extra_rate + 0.10, 0.45 )))- labor_round(all_denominator * (rate + use_extra_rate) ))
+
+
+# lim_b7 = labor_round(all_denominator * (rate + use_extra_rate + 0.10)) - labor_round(all_denominator * (rate + use_extra_rate))
 # 外國技術人數上限      
 lim_tech = labor_round(all_denominator * rate)
 
@@ -199,11 +203,11 @@ final_rem = rem4 - abo
 # 4. 結果報告呈現
 st.divider()
 st.subheader("📋 即時試算結果報告")
-st.write(f"{lim_b1}、{lim_p20}、{lim_b6}、{lim_b7}、{abo}、{total_blue}")
+# st.write(f"{lim_b1}、{lim_p20}、{lim_b6}、{lim_b7}、{abo}、{total_blue}")
 
 st.write(f"目前全廠使用外國人 **{sum_all_foreign}** 人、藍領總數 **{total_blue}** 人、外國技術人力 **{tech}** 人")
 if total_control > 0:
-    st.write(f"(另尚有有效名額**{val}** 人及廢聘名額 **{abo}** 人)")
+    st.write(f"(另尚有有效名額**{val}** 人及廢聘管制名額 **{abo}** 人)")
 else:
     st.write(f"")
 
