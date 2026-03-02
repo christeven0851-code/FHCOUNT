@@ -200,7 +200,7 @@ df_data = {
     "項目": ["本案", "增額(總)", "承接", "加薪", "技術人力"],
     "目前人數": [b1, b_extra_total, b6, b7, tech],
     "個別上限": [lim_b1, up_extra_total, lim_b6, lim_b7, lim_tech],
-    "剩餘空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6-total_control), max(0, lim_b7-b7-total_control), max(0, lim_tech-tech)]
+    "剩餘使用空間": [max(0, lim_b1-b1), max(0, up_extra_total-b_extra_total), max(0, lim_b6-b6-total_control), max(0, lim_b7-b7-total_control), max(0, lim_tech-tech)]
 }
 st.table(pd.DataFrame(df_data))
 
