@@ -192,7 +192,7 @@ rem3 = labor_round(all_denominator * min ((rate + 0.20+ 0.10 ),0.45)) - (b1 + b_
 rem4 = labor_round(all_denominator * 0.5) - sum_all_foreign
 
 #藍領尚可使用
-blue_remaining = lim_b1 + up_extra_total + lim_b6 + lim_b7
+blue_remaining = lim_b1 + up_extra_total + lim_b6 + lim_b7 - total_blue
 tech_remaining = max(0, min(lim_tech - tech, rem4))
 final_rem = rem4
 
