@@ -47,7 +47,7 @@ def create_pdf(data):
         
         # 核心結論 (加粗感)
         pdf.set_font('MSJH', size=14)
-        pdf.cell(200, 10, txt=f"【預估可再使用總數：{data['final_rem-abo']} 人】", ln=True)
+        pdf.cell(200, 10, txt=f"【預估可再使用總數：{data['final_rem']} 人】", ln=True)
         
         pdf.set_font('MSJH', size=12)
         pdf.cell(200, 8, txt=f"  ● 藍領尚可使用：{data['blue_rem']} 人", ln=True)
